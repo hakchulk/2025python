@@ -38,3 +38,27 @@ for i in range(5):
     axes[i].axis('off')
 
 plt.show()
+
+correct = 0
+total = 0
+
+# 평가 모드에서는 기울기(gradient) 계산이 필요 없으므로 성능과 메모리를 위해 비활성화
+with torch.no_grad():
+    for images, labels in test_loader:
+        # 데이터를 DirectML 장치로 이동
+        images, labels = images.to(device), labels.to(device)
+        
+        # 모델 예측
+        outputs = model(images)
+        
+        # 가장 높은 확률을 가진 인덱스가 예측한 숫자
+        _, predicted = torch.max(outputs.data, 1)
+        
+        # 전체 개수와 맞힌 개수 업데이트
+        total += labels.size(0)
+        correct += (predicted == labels).sum().item()
+
+accuracy = 100 * correct / total
+print(f"테스트 데이터셋 전체 크기: {total}개")
+print(f"정확하게 맞힌 개수: {correct}개")
+print(f"최종 정답률(Accuracy): {accuracy:.2f}%")

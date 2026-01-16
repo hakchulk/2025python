@@ -42,7 +42,7 @@ for epoch in range(3): # 3회 반복 학습
     print(f"Epoch {epoch+1} 완료 - 평균 오차: {running_loss/len(train_loader):.4f}")
 
 # 저장할 파일 이름
-MODEL_PATH = "mnist_model.pth"
+MODEL_PATH = "mnist_model.pth.data"
 
 # 모델의 state_dict(가중치 데이터)를 저장
 torch.save(model.state_dict(), MODEL_PATH)
